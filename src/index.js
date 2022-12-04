@@ -1,24 +1,48 @@
-import { Ion, Viewer, createWorldTerrain, createOsmBuildings, Cartesian3, Math } from "cesium";
+// Grant CesiumJS access to your ion assets
+import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
-import "../src/css/main.css"
+import "../src/css/main.css";
 
-// Your access token can be found at: https://cesium.com/ion/tokens.
-// This is the default access token
-Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1OWUxNy1mMWZiLTQzYjYtYTQ0OS1kMWFjYmFkNjc5YzciLCJpZCI6NTc3MzMsImlhdCI6MTYyNzg0NTE4Mn0.XcKpgANiY19MC4bdFUXMVEBToBmqS8kuYpUlxJHYZxk';
+Cesium.Ion.defaultAccessToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTdmZDFiNi1hNGM0LTRkZTQtYmY5YS0zYzgwMjkyMjZlNTciLCJpZCI6MTE2OTM0LCJpYXQiOjE2Njk5NzQxODZ9.cDAFssAhRLb53ckRxYq9-44iI2XoBHq8kAe7A0sUod8";
 
-// Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
-const viewer = new Viewer('cesiumContainer', {
-  terrainProvider: createWorldTerrain()
+const viewer = new Cesium.Viewer("cesiumContainer", {
+  requestRenderMode: true,
+  maximumRenderTimeChange: Infinity,
 });
 
-// Add Cesium OSM Buildings, a global 3D buildings layer.
-viewer.scene.primitives.add(createOsmBuildings());   
+viewer.scene.debugShowFramesPerSecond = true;
 
-// Fly the camera to San Francisco at the given longitude, latitude, and height.
-viewer.camera.flyTo({
-  destination : Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-  orientation : {
-    heading : Math.toRadians(0.0),
-    pitch : Math.toRadians(-15.0),
+const options = {
+  camera: viewer.scene.camera,
+  canvas: viewer.scene.canvas,
+};
+
+const tileSet = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
+    url : 'http://localhost:9000/public/3d_tiles/2_0_0-4_1_1/tileset.json'
+}));
+
+console.log(`'http://localhost:9000/public/3d_tiles/2_0_0-4_1_1/tileset.json' loaded successfully`);
+
+const kmlDataSource = new Cesium.KmlDataSource();
+kmlDataSource.show = true;
+
+(async () => {
+
+  await viewer.dataSources.add(kmlDataSource);
+
+  try {
+    await kmlDataSource.load(
+      "http://localhost:9000/public/kml/AGI_HQ.kmz",
+        options
+    );
+      await tileSet.readyPromise;
+      await viewer.flyTo(tileSet);
+      console.log(`tileset ready`);
+
+      //await viewer.flyTo(kmlDataSource, { duration: 5 });
+  } catch (e) {
+    console.error("Error loading", e);
   }
-});
+
+})();

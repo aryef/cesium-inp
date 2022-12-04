@@ -20,7 +20,7 @@ You'll learn how to:
 ## Create the App Code
 
 1. Create a `src` directory for your app code. When you build the app, webpack will automatically produce distribution files in a directory named `dist`.
-2. Create the files `index.html` and `index.js` in the `src` directory added in step 1.
+2. Create the files `index.html` and `index3.js` in the `src` directory added in step 1.
 3. Add the following code to `src/index.html`. This will serve as a boilerplate HTML page to get us started.
     ```html
     <!DOCTYPE html>
@@ -33,7 +33,7 @@ You'll learn how to:
     </body>
     </html>
     ```
-4. Add the following code to `src/index.js`. This will serve as our boilerplate JavaScript code.
+4. Add the following code to `src/index3.js`. This will serve as our boilerplate JavaScript code.
     ```js
     console.log('Hello World!');
     ```
@@ -60,7 +60,7 @@ You'll learn how to:
     module.exports = {
         context: __dirname,
         entry: {
-            app: './src/index.js'
+            app: './src/index3.js'
         },
         output: {
             filename: 'app.js',
@@ -68,7 +68,7 @@ You'll learn how to:
         }
     };
     ```
-    In this code, `context` specifies the base path for your files. `entry` is used to specify bundles and `src/index.js` is our entry point. Webpack will output the bundel `app.js` to the folder `dist`, that webpack will create at runtime.
+    In this code, `context` specifies the base path for your files. `entry` is used to specify bundles and `src/index3.js` is our entry point. Webpack will output the bundel `app.js` to the folder `dist`, that webpack will create at runtime.
 4. Webpack loads everything like a module. [loaders](https://webpack.js.org/concepts/#loaders) are used to load CSS and other asset files. Install the [style-loader](https://webpack.js.org/loaders/style-loader/#src/components/Sidebar/Sidebar.jsx), [css-loader](https://webpack.js.org/loaders/css-loader/), and [url-loader](https://webpack.js.org/loaders/url-loader/) using `npm install --save-dev style-loader css-loader url-loader`. Feel free to install any other loaders you may need in the future. Loaders can be installed at any point during this process.
 5. Update `webpack.config.js` by adding two `module.rules`. The first rule should support CSS files and the second rule should support other static files. For each rule, define `test` for the types of files to load and `use` to specify the list of loaders. `webpack.config.js` should look something like this.
     ```js
@@ -77,7 +77,7 @@ You'll learn how to:
     module.exports = {
         context: __dirname,
         entry: {
-            app: './src/index.js'
+            app: './src/index3.js'
         },
         output: {
             filename: 'app.js',
@@ -104,7 +104,7 @@ You'll learn how to:
     module.exports = {
         context: __dirname,
         entry: {
-            app: './src/index.js'
+            app: './src/index3.js'
         },
         output: {
             filename: 'app.js',
@@ -132,9 +132,11 @@ You'll learn how to:
 
 1. In `package.json`, define the scripts that we can call with `npm`. Add the `build` command.
     ```json
+   {
     "scripts": {
         "build": "node_modules/.bin/webpack --config webpack.config.js"
     }
+   }
     ```
     If done correctly, `package.json` should look something like this.  
     ```json
@@ -142,7 +144,7 @@ You'll learn how to:
     "name": "cesiumjs-webpack-tutorial",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "index3.js",
     "scripts": {
         "build": "node_modules/.bin/webpack --config webpack.config.js"
     },
@@ -171,7 +173,7 @@ Please note that details of this json file will vary based on your selections in
 
     asset app.js 1.22 KiB [emitted] (name: app)
     asset index.html 376 bytes [emitted]
-    ./src/index.js 28 bytes [built] [code generated]
+    ./src/index3.js 28 bytes [built] [code generated]
     webpack 5.50.0 compiled successfully in 86 ms
     ```
 Please verify that the `app.js` bundle and `index.html` file are added to the `dist` folder.
@@ -185,7 +187,7 @@ Please verify that the `app.js` bundle and `index.html` file are added to the `d
     "name": "cesiumjs-webpack-tutorial",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "index3.js",
     "scripts": {
         "build": "node_modules/.bin/webpack --config webpack.config.js",
         "start": "node_modules/.bin/webpack serve --config webpack.config.js --open"
@@ -229,7 +231,7 @@ First, define where CesiumJS is. This tutorial uses the source code, so webpack 
     module.exports = {
         context: __dirname,
         entry: {
-            app: './src/index.js'
+            app: './src/index3.js'
         },
         output: {
             filename: 'app.js',
@@ -280,7 +282,7 @@ First, define where CesiumJS is. This tutorial uses the source code, so webpack 
     module.exports = {
         context: __dirname,
         entry: {
-            app: './src/index.js'
+            app: './src/index3.js'
         },
         output: {
             filename: 'app.js',
@@ -329,7 +331,7 @@ First, define where CesiumJS is. This tutorial uses the source code, so webpack 
 
 ## Incorporate CesiumJS Into Your Application 
 
-1. Updated `index.js` with CesiumJS starter code:
+1. Updated `index3.js` with CesiumJS starter code:
 
     ```js
     import { Ion, Viewer, createWorldTerrain, createOsmBuildings, Cartesian3, Math } from "cesium";
